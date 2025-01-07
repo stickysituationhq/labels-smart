@@ -1,0 +1,366 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Font faces */
+@font-face {
+    font-family: 'E1';
+    src: url('../fonts/MYRIADPRO-BOLD.OTF') format('opentype');
+}
+@font-face {
+    font-family: 'E2';
+    src: url('../fonts/FredokaOne-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'E3';
+    src: url('../fonts/ArialRoundedBold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'E4';
+    src: url('../fonts/Auglie.otf') format('opentype');
+}
+@font-face {
+    font-family: 'E5';
+    src: url('../fonts/Marker-Felt-Wide.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'E6';
+    src: url('../fonts/CHALKBOARDSB.TTF') format('truetype');
+}
+@font-face {
+    font-family: 'E7';
+    src: url('../fonts/WendyOne-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'E8';
+    src: url('../fonts/BerkshireSwash-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'E9';
+    src: url('../fonts/SecularOne-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'E10';
+    src: url('../fonts/UniSansBoldItalic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'E11';
+    src: url('../fonts/Brandon_reg.otf') format('opentype');
+}
+@font-face {
+    font-family: 'E12';
+    src: url('../fonts/Athelas-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Klop';
+    src: url('../fonts/Klop.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Chinese fonts */
+@font-face {
+    font-family: 'C1';
+    src: url('../fonts/Apple LiGothic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'C2';
+    src: url('../fonts/Hannotate%20SC%20Bold.otf') format('opentype');
+}
+@font-face {
+    font-family: 'C3';
+    src: url('../fonts/Yuanti SC Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'C4';
+    src: url('../fonts/wawati-tc-regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'C5';
+    src: url('../fonts/FZLiBian-S02S.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'C6';
+    src: url('../fonts/baoli-sc-regular.ttf') format('truetype');
+}
+
+/* Layout and Components */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    font-family: Arial, sans-serif;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.container-width {
+    width: 100%;
+    max-width: 320px;
+}
+
+/* Logo Area */
+.logo-area {
+    width: 100%;
+    max-width: 320px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: #999;
+    font-size: 14px;
+}
+
+.logo-area img {
+    width: 100%;
+}
+
+.listing {
+    font-size: 18px;
+    margin-bottom: 21px;
+}
+
+#textInputRow1, #textInputRow2 {
+    padding: 0.75rem 1rem;  /* Increased padding for better text input spacing */
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    width: 100%;
+    max-width: 320px;
+    background-color: #fff;
+    color: #212529;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+/* Form Elements */
+#colorSelect, #fontSelect, #textInput {
+    margin-bottom: 25px;
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    width: 100%;
+    max-width: 320px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+#colorSelect:focus, #fontSelect:focus, #textInput:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+}
+
+#colorSelect:hover, #fontSelect:hover {
+    border-color: #ced4da;
+    cursor: pointer;
+}
+
+/* For the text input, we don't want the dropdown arrow */
+#textInput {
+    background-image: none;
+    padding: 0.375rem 0.75rem;
+}
+
+.input-group {
+    margin-bottom: 25px;
+    text-align: left;
+    width: 100%;
+    max-width: 320px;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    padding-left: 3px;
+}
+
+/* Preview Section */
+.preview-group {
+    width: 100%;
+    max-width: 480px;
+    margin-bottom: 25px;
+    padding: 20px 0;
+}
+
+/* Grid Layout (can be toggled via class) */
+.preview-group.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.preview-group.grid .preview-label {
+    grid-column: 1 / -1;  /* This makes the label span all columns */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.preview-label {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center; 
+    padding-left: 0;
+}
+
+.placeholder {
+    width: 189px;
+    height: 90px;
+    margin: 15px auto;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    padding: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.text-row {
+    font-size: 12px;
+    line-height: 1.2;
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Changed to target first row instead of last */
+.text-row:first-child {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Info Display */
+#infoDisplay {
+    width: 100%;
+    max-width: 320px;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    resize: none;
+    height: auto;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+#infoDisplay:hover {
+    background-color: #e8e8e8;
+}
+
+/* Bootstrap-style button */
+.copy-button {
+    width: 100%;
+    max-width: 320px;
+    padding: 10px 16px;
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #0d6efd;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    transition: color .15s ease-in-out,
+                background-color .15s ease-in-out,
+                border-color .15s ease-in-out,
+                box-shadow .15s ease-in-out;
+}
+
+.copy-button:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.copy-button:active {
+    background-color: #0a58ca;
+    border-color: #0a53be;
+    box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+}
+
+.copy-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+    outline: 0;
+}
+
+/* Copy Notification */
+.copy-notification {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.copy-notification.show {
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 320px) {
+    .placeholder {
+        width: 160px;
+        height: 32px;
+    }
+    
+    body {
+        padding: 20px;
+    }
+}
+
+@media (min-width: 481px) {
+    body {
+        padding: 40px;
+    }
+    
+    .input-group, .preview-group, #colorSelect, #fontSelect, #textInput, #infoDisplay, #colorSelect,{
+        max-width: 400px;
+    }
+}
+
+.version-info {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    padding: 20px 0;
+    margin-top: 20px;
+}
