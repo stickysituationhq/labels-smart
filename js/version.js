@@ -1,1 +1,1 @@
-document.write('<footer class="version-info">ver 1.2</footer>');
+document.write('<footer class="version-info">ver 2.0</footer>');

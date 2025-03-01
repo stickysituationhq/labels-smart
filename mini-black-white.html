@@ -4,13 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/styles-mini.css">
+<style>
+body {
+    padding-top: 0;
+    margin-top: 0;
+}
+.input-group {
+    margin-bottom: 10px;  /* Reduced spacing between input groups */
+}
+.preview-group {
+    margin-top: 10px;  /* Reduced spacing before preview group */
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.preview-label {
+    margin-bottom: 5px;
+}
+</style>
 </head>
 
 <body>
-<div class="logo-area">
-  <figure><img src="images/logo.png" width="auto" height="auto" alt="StickySituation logo"/></figure>
-</div>
-<h2 class="listing">Mini - B&W (<a href="mini-tritone.html">Tritone</a>, <a href="mini-monotone.html">Monotone</a>, <a href="mini-rainbow.html">Rainbow</a>)</h2>
 <div class="copy-notification" id="copyNotification">Copied!</div>
 <div class="input-group">
   <label for="textInput" class="input-label">1. Insert name/text</label>
@@ -27,7 +40,7 @@
   </select>
 </div>
 <div class="input-group">
-  <label for="textInput" class="input-label">1. Choose font</label>
+  <label for="textInput" class="input-label">3. Choose font</label>
   <select id="fontSelect" class="container-width">
     <option value="'E1', sans-serif">E1</option>
     <option value="'E2', sans-serif">E2</option>
