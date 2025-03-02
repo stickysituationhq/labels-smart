@@ -119,6 +119,17 @@ body {
     width: 100%;
 }
 
+.mini-title {
+    text-align: center;
+    font-size: 17px !important;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    padding: 0;
+    color: #333;
+    text-transform: uppercase;
+    font-family: 'Klop', sans-serif;
+}
+
 .listing {
     font-size: 18px;
     margin-bottom: 21px;

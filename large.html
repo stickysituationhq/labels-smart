@@ -1,101 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="css/styles-large.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles-large.css">
+    <style>
+        .tab-container {
+            margin: 10px 0;
+        }
+        .logo-area {
+            margin-bottom: 0;
+        }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .tab-button {
+            padding: 8px 16px;
+            border: none;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .tab-button.active {
+            background: #333;
+            color: white;
+        }
+        #content-container {
+            width: 100%;
+            height: calc(100vh - 200px);
+            border: none;
+        }
+    </style>
 </head>
-
 <body>
-<div class="logo-area" style="margin-bottom: 2rem;">
-  <figure><img src="images/logo.png" width="auto" height="auto" alt="StickySituation logo"/></figure>
-</div>
-<div class="copy-notification" id="copyNotification">Copied!</div>
-	
-<div class="input-group">
-  <label for="textInputRow1" class="input-label">1. Insert Row 1 Text</label>
-  <input type="text" class="container-width" id="textInputRow1" placeholder="Enter text for row 1..." value="" maxlength="20">
-</div>
+    <div class="logo-area">
+        <figure><img src="images/logo.png" width="auto" height="auto" alt="StickySituation logo"/></figure>
+    </div>
+    
+    <h2 class="mini-title">LARGE LABELS</h2>
 
-<div class="input-group">
-  <label for="textInputRow2" class="input-label">2. Insert Row 2 Text</label>
-  <input type="text" class="container-width" id="textInputRow2" placeholder="Enter text for row 2..." value="" maxlength="20">
-</div>
+    <div class="tab-container">
+        <div class="tabs">
+            <button class="tab-button" data-page="large-tritone.html" data-hash="tritone">Tritone</button>
+            <button class="tab-button" data-page="large-monotone.html" data-hash="monotone">Monotone</button>
+            <button class="tab-button" data-page="large-rainbow.html" data-hash="rainbow">Rainbow</button>
+            <button class="tab-button" data-page="large-black-white.html" data-hash="bw">B&W</button>
+        </div>
+    </div>
 
-<div class="input-group">
-  <label for="colorSelect" class="input-label">3. Select design</label>
-  <select id="colorSelect" class="container-width">
-    <option value="ash">Ash</option>
-    <option value="aurora">Aurora</option>
-    <option value="bliss">Bliss</option>
-    <option value="bonsai">Bonsai</option>
-    <option value="breezy">Breezy</option>
-    <option value="citrus">Citrus</option>
-    <option value="cloud">Cloud</option>
-    <option value="crayon">Crayon</option>
-    <option value="dream">Dream</option>
-    <option value="fiesta">Fiesta</option>
-    <option value="flamingo">Flamingo</option>
-    <option value="garden">Garden</option>
-    <option value="lavender">Lavender</option>
-    <option value="lemomdrop">Lemomdrop</option>
-    <option value="macha">Macha</option>
-    <option value="misberry">Misberry</option>
-    <option value="pastel">Pastel</option>
-    <option value="roselit">Roselit</option>
-    <option value="sienna">Sienna</option>
-    <option value="sunbear">Sunbear</option>
-    <option value="sunset">Sunset</option>
-    <option value="tropical">Tropical</option>
-    <option value="twilight">Twilight</option>
-    <option value="vivid">Vivid</option>
-  </select>
-</div>
+    <iframe id="content-container" src="large-tritone.html"></iframe>
 
-<div class="input-group">
-  <label for="fontSelect" class="input-label">4. Choose font</label>
-  <select id="fontSelect" class="container-width">
-    <option value="'E1', sans-serif">E1</option>
-    <option value="'E2', sans-serif">E2</option>
-    <option value="'E3', sans-serif">E3</option>
-    <option value="'E4', sans-serif">E4</option>
-    <option value="'E5', sans-serif">E5</option>
-    <option value="'E6', sans-serif">E6</option>
-    <option value="'E7', sans-serif">E7</option>
-    <option value="'E8', sans-serif">E8</option>
-    <option value="'E9', sans-serif">E9</option>
-    <option value="'E10', sans-serif">E10</option>
-    <option value="'E11', sans-serif">E11</option>
-    <option value="'E12', sans-serif">E12</option>
-    <option value="'C1', sans-serif">C1</option>
-    <option value="'C2', sans-serif">C2</option>
-    <option value="'C3', sans-serif">C3</option>
-    <option value="'C4', sans-serif">C4</option>
-    <option value="'C5', sans-serif">C5</option>
-    <option value="'C6', sans-serif">C6</option>
-  </select>
-</div>
-<div class="preview-group">
-  <label class="preview-label">Preview:</label>
-  <div id="placeholder1" class="placeholder">
-    <div class="text-row" id="row1-1"></div>
-    <div class="text-row" id="row2-1"></div>
-  </div>
-  <div id="placeholder2" class="placeholder">
-    <div class="text-row" id="row1-2"></div>
-    <div class="text-row" id="row2-2"></div>
-  </div>
-  <div id="placeholder3" class="placeholder">
-    <div class="text-row" id="row1-3"></div>
-    <div class="text-row" id="row2-3"></div>
-  </div>
-</div>
-<div class="input-group">
-  <input type="text" id="infoDisplay" readonly title="Click to copy">
-  <button id="copyButton" class="copy-button">Click to Copy Info...</button>
-</div>
-	
-<script src="js/scripts-large.js"></script>
-<script src="js/version.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab-button');
+            const contentFrame = document.getElementById('content-container');
+            
+            // Function to activate a specific tab
+            function activateTab(tab) {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Load the corresponding page
+                const page = tab.getAttribute('data-page');
+                contentFrame.src = page;
+                
+                // Update URL hash without triggering a page reload
+                const hash = tab.getAttribute('data-hash');
+                history.replaceState(null, null, hash ? '#' + hash : window.location.pathname);
+            }
+
+            // Handle tab clicks
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    activateTab(tab);
+                });
+            });
+
+            // Handle initial load based on URL hash
+            function handleHash() {
+                const hash = window.location.hash.slice(1); // Remove the # symbol
+                if (hash) {
+                    const matchingTab = document.querySelector(`.tab-button[data-hash="${hash}"]`);
+                    if (matchingTab) {
+                        activateTab(matchingTab);
+                        return;
+                    }
+                }
+                // Default to tritone if no hash or invalid hash
+                const defaultTab = document.querySelector('.tab-button[data-hash="tritone"]');
+                activateTab(defaultTab);
+            }
+
+            // Handle hash changes
+            window.addEventListener('hashchange', handleHash);
+            
+            // Handle initial page load
+            handleHash();
+        });
+    </script>
 </body>
-</html>
+</html> 
