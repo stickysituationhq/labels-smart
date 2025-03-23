@@ -199,10 +199,11 @@ function updateInfoDisplay() {
     infoDisplay.value = [selectedColorSet, selectedFont, ...values].join(', ');
 
     // Create CSV header (single line, no spaces after commas)
-    const headerRow = ['DESIGN','FONT'];
+    const headerRow = ['D','F'];
     for (let set = 1; set <= 2; set++) {
         for (let row = 1; row <= 12; row++) {
-            headerRow.push(`s${set}r${row}a`,`s${set}r${row}b`);
+            const prefix = set === 1 ? 'x' : 'y';
+            headerRow.push(`${prefix}${row}a`,`${prefix}${row}b`);
         }
     }
     
@@ -382,10 +383,11 @@ if (copyButton) {
     copyButton.addEventListener('click', async () => {
         try {
             // Create CSV header (single line, no spaces after commas)
-            const headerRow = ['DESIGN','FONT'];
+            const headerRow = ['D','F'];
             for (let set = 1; set <= 2; set++) {
                 for (let row = 1; row <= 12; row++) {
-                    headerRow.push(`s${set}r${row}a`,`s${set}r${row}b`);
+                    const prefix = set === 1 ? 'x' : 'y';
+                    headerRow.push(`${prefix}${row}a`,`${prefix}${row}b`);
                 }
             }
             
@@ -397,10 +399,10 @@ if (copyButton) {
             const dataRow = [selectedColorSet, selectedFont, ...values];
 
             // Combine with cut markers and proper line breaks
-            const textToCopy = '----CUT HERE----\n' + 
-                             headerRow.join(',') + '\n' + 
-                             dataRow.join(',') + 
-                             '\n----CUT HERE----';
+            const textToCopy = '---\n' +
+                headerRow.join(',') + '\n' +
+                document.getElementById('infoDisplay').value +
+            '\n---';
             
             await navigator.clipboard.writeText(textToCopy);
             showPopup(copyPopup); // Show the custom popup

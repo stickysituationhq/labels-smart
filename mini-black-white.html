@@ -294,7 +294,7 @@ body {
 <div class="input-group">
   <input type="text" id="infoDisplay" readonly title="Click to copy">
   <input type="text" id="csvDisplay" readonly title="Click to copy CSV">
-  <button id="copyButton" class="copy-button" onclick="copyToClipboard('----CUT HERE----\n' + document.getElementById('infoDisplay').value + '\n----CUT HERE----')">Copy Info</button>
+  <button id="copyButton" class="copy-button" onclick="copyToClipboard('---\n' + document.getElementById('infoDisplay').value + '\n---')">Copy Info</button>
   <button id="downloadButton" class="copy-button">Download Info</button>
 </div>
 <script>
@@ -307,6 +307,9 @@ function clearSet(setId) {
             input.placeholder = 'name/text';  // Restore the default placeholder
         }
     });
+    
+    // Update the info display after clearing
+    updateInfoDisplay();
 }
 </script>
 <script src="js/scripts-mini-test.js"></script>
