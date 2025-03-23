@@ -151,8 +151,10 @@
                 return;
             }
 
-            // Split the text into lines and remove empty lines
-            const lines = text.split('\n').filter(line => line.trim());
+            // Split the text into lines, remove empty lines and "----CUT HERE----" lines
+            const lines = text.split('\n')
+                .filter(line => line.trim())
+                .filter(line => !line.includes('----CUT HERE----'));
             
             // Ensure we have both header and data
             let csvContent;
