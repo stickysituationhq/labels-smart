@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles-mini.css">
+    <style>
+        body {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        .tab-container {
+            margin: 10px 0;
+        }
+        .logo-area {
+            margin-bottom: 0;
+            text-align: center;
+        }
+        .mini-title {
+            text-align: center;
+        }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .tab-button {
+            padding: 8px 16px;
+            border: none;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .tab-button.active {
+            background: #333;
+            color: white;
+        }
+        #content-container {
+            width: 100%;
+            max-width: 1040px;
+            height: calc(100vh - 200px);
+            border: none;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 875px) {
+            body {
+                padding: 40px;
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            #content-container {
+                width: 100%;
+                height: calc(100vh - 180px);
+                max-width: 100%;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            .tab-button {
+                padding: 8px 16px;
+                font-size: 14px;
+                min-width: max-content;
+            }
+
+            .logo-area figure img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-area">
+        <figure><img src="images/logo.png" width="auto" height="auto" alt="StickySituation logo"/></figure>
+    </div>
+
+    <h2 class="mini-title">MINI LABELS (SMART)</h2>
+
+    <div class="tab-container">
+        <div class="tabs">
+            <button class="tab-button" data-page="mini-tritone.html" data-hash="tritone">Tritone</button>
+            <button class="tab-button" data-page="mini-monotone.html" data-hash="monotone">Monotone</button>
+            <button class="tab-button" data-page="mini-rainbow.html" data-hash="rainbow">Rainbow</button>
+            <button class="tab-button" data-page="mini-black-white.html" data-hash="bw">B&W</button>
+        </div>
+    </div>
+
+    <iframe id="content-container" src="mini-tritone.html"></iframe>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab-button');
+            const contentFrame = document.getElementById('content-container');
+            
+            // Function to activate a specific tab
+            function activateTab(tab) {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Load the corresponding page
+                const page = tab.getAttribute('data-page');
+                contentFrame.src = page;
+                
+                // Update URL hash without triggering a page reload
+                const hash = tab.getAttribute('data-hash');
+                history.replaceState(null, null, hash ? '#' + hash : window.location.pathname);
+            }
+
+            // Handle tab clicks
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    activateTab(tab);
+                });
+            });
+
+            // Handle initial load based on URL hash
+            function handleHash() {
+                const hash = window.location.hash.slice(1); // Remove the # symbol
+                if (hash) {
+                    const matchingTab = document.querySelector(`.tab-button[data-hash="${hash}"]`);
+                    if (matchingTab) {
+                        activateTab(matchingTab);
+                        return;
+                    }
+                }
+                // Default to tritone if no hash or invalid hash
+                const defaultTab = document.querySelector('.tab-button[data-hash="tritone"]');
+                activateTab(defaultTab);
+            }
+
+            // Handle hash changes
+            window.addEventListener('hashchange', handleHash);
+            
+            // Handle initial page load
+            handleHash();
+        });
+    </script>
+</body>
+</html> 
