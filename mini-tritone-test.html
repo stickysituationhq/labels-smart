@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/styles-mini.css">
+<link rel="stylesheet" href="css/styles-mini-common.css">
+<link rel="stylesheet" href="css/styles-mini-tritone.css">
+<style>
+body {
+    padding-top: 0;
+    margin-top: 0;
+    max-width: 1000px;  /* Reduced max-width since we have fixed placeholder widths */
+    margin-left: auto;
+    margin-right: auto;
+}
+.input-group {
+    margin-bottom: 10px;
+}
+.preview-group {
+    margin-top: 10px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.preview-label {
+    margin-bottom: 5px;
+}
+.preview-sets-container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;  /* Changed from space-between to center */
+    align-items: flex-start;  /* Align items to the top */
+    width: 100%;  /* Ensure container takes full width */
+}
+.preview-set-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.preview-set-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+    font-size: 1.2em;  /* Added larger font size */
+}
+.preview-set {
+    flex: 0 0 auto;
+    width: 400px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.preview-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;  /* Reduced from 5px to 2px */
+    gap: 10px;
+}
+.preview-row .placeholder {
+    width: 190px;
+    position: relative;
+    margin: 2px auto;  /* Changed to 2px for top/bottom margin */
+}
+.preview-row .placeholder input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent;
+    border: none;
+    padding: 2px;  /* Reduced from 5px to 2px */
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    text-align: center;
+}
+.preview-row .placeholder input:focus {
+    outline: none;
+}
+.preview-row .placeholder input::placeholder {
+    color: rgba(0, 0, 0, 0.2);  /* Reduced opacity from 0.3 to 0.2 for more fade */
+}
+#infoDisplay, #csvDisplay {
+    display: none;  /* Hide both display info inputs */
+}
+
+/* Custom Popup Styles */
+.custom-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px 40px;  /* Increased padding */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+    min-width: 400px;  /* Set minimum width */
+}
+
+.custom-popup h3 {
+    margin: 0 0 20px 0;  /* Increased bottom margin */
+    color: #2196F3;
+    font-weight: bold;
+    font-size: 1.4em;  /* Increased font size */
+}
+
+.custom-popup p {
+    margin: 0 0 25px 0;  /* Increased bottom margin */
+    line-height: 1.6;
+    font-size: 1.1em;  /* Increased font size */
+}
+
+.custom-popup code {
+    font-family: monospace;
+    font-size: 1.1em;
+    background-color: #f5f5f5;
+    padding: 4px 8px;  /* Increased padding */
+    border-radius: 3px;
+    display: inline-block;  /* Added to ensure padding works properly */
+    margin-top: 8px;  /* Added space above email */
+}
+
+.custom-popup button {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 12px 32px;  /* Increased padding */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;  /* Increased font size */
+}
+
+.custom-popup button:hover {
+    background-color: #1976D2;
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.clear-button {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    color: #666;
+    transition: all 0.2s ease;
+}
+
+.clear-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 875px) {
+    .preview-sets-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+        padding: 0 10px;
+    }
+    
+    .preview-set-container {
+        width: 100%;
+    }
+    
+    .preview-set {
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+    }
+    
+    .preview-row .placeholder {
+        width: 45%;
+    }
+    
+    body {
+        padding: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="popup-overlay" id="popupOverlay"></div>
+<div class="custom-popup" id="copyPopup">
+    <h3>Info Copied!</h3>
+    <p>Paste the info in the Chat for me please<br>😊</p>
+    <button id="popupOkayButton">Okay</button>
+</div>
+<div class="custom-popup" id="downloadPopup">
+    <h3>Info Downloaded!</h3>
+    <p>Please send the downloaded .csv file to<br><code>stickysituationhq@gmail.com</code></p>
+    <button id="downloadPopupOkayButton">Okay</button>
+</div>
+<div class="copy-notification" id="copyNotification">Copied!</div>
+<div class="input-group">
+  <label for="colorSelect" class="input-label">1. Select design</label>
+  <select id="colorSelect" class="container-width">
+    <option value="ash">Ash</option>
+    <option value="aurora">Aurora</option>
+    <option value="bliss">Bliss</option>
+    <option value="bonsai">Bonsai</option>
+    <option value="breezy">Breezy</option>
+    <option value="citrus">Citrus</option>
+    <option value="cloud">Cloud</option>
+    <option value="crayon">Crayon</option>
+    <option value="dream">Dream</option>
+    <option value="fiesta">Fiesta</option>
+    <option value="flamingo">Flamingo</option>
+    <option value="garden">Garden</option>
+    <option value="lavender">Lavender</option>
+    <option value="lemomdrop">Lemomdrop</option>
+    <option value="macha">Macha</option>
+    <option value="misberry">Misberry</option>
+    <option value="pastel">Pastel</option>
+    <option value="roselit">Roselit</option>
+    <option value="sienna">Sienna</option>
+    <option value="sunbear">Sunbear</option>
+    <option value="sunset">Sunset</option>
+    <option value="tropical">Tropical</option>
+    <option value="twilight">Twilight</option>
+    <option value="vivid">Vivid</option>
+  </select>
+</div>
+<div class="input-group">
+  <label for="fontSelect" class="input-label">2. Choose font</label>
+  <select id="fontSelect" class="container-width">
+    <option value="'E1', sans-serif">E1</option>
+    <option value="'E2', sans-serif">E2</option>
+    <option value="'E3', sans-serif">E3</option>
+    <option value="'E4', sans-serif">E4</option>
+    <option value="'E5', sans-serif">E5</option>
+    <option value="'E6', sans-serif">E6</option>
+    <option value="'E7', sans-serif">E7</option>
+    <option value="'E8', sans-serif">E8</option>
+    <option value="'E9', sans-serif">E9</option>
+    <option value="'E10', sans-serif">E10</option>
+    <option value="'E11', sans-serif">E11</option>
+    <option value="'E12', sans-serif">E12</option>
+    <option value="'C1', sans-serif">C1</option>
+    <option value="'C2', sans-serif">C2</option>
+    <option value="'C3', sans-serif">C3</option>
+    <option value="'C4', sans-serif">C4</option>
+    <option value="'C5', sans-serif">C5</option>
+    <option value="'C6', sans-serif">C6</option>
+  </select>
+</div>
+<div class="preview-group">
+  <div class="preview-sets-container">
+    <!-- Set 1 -->
+    <div class="preview-set-container">
+      <div class="preview-set-title">Set 1</div>
+      <button class="clear-button" onclick="clearSet('set1')">Clear</button>
+      <div class="preview-set">
+        <!-- Rows 1-4: placeholder1 -->
+        <div class="preview-row"><div id="set1-row1-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row1-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set1-row2-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row2-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set1-row3-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row3-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set1-row4-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row4-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <!-- Rows 5-8: placeholder2 -->
+        <div class="preview-row"><div id="set1-row5-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row5-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set1-row6-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row6-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set1-row7-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row7-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set1-row8-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row8-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <!-- Rows 9-12: placeholder3 -->
+        <div class="preview-row"><div id="set1-row9-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row9-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set1-row10-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row10-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set1-row11-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row11-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set1-row12-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set1-row12-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+      </div>
+    </div>
+
+    <!-- Set 2 -->
+    <div class="preview-set-container">
+      <div class="preview-set-title">Set 2</div>
+      <button class="clear-button" onclick="clearSet('set2')">Clear</button>
+      <div class="preview-set">
+        <!-- Rows 1-4: placeholder1 -->
+        <div class="preview-row"><div id="set2-row1-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row1-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set2-row2-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row2-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set2-row3-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row3-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set2-row4-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row4-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <!-- Rows 5-8: placeholder2 -->
+        <div class="preview-row"><div id="set2-row5-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row5-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set2-row6-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row6-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set2-row7-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row7-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set2-row8-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row8-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <!-- Rows 9-12: placeholder3 -->
+        <div class="preview-row"><div id="set2-row9-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row9-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set2-row10-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row10-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set2-row11-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row11-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+        <div class="preview-row"><div id="set2-row12-1" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div><div id="set2-row12-2" class="placeholder"><input type="text" maxlength="20" placeholder="name/text"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="input-group">
+  <input type="text" id="infoDisplay" readonly title="Click to copy">
+  <input type="text" id="csvDisplay" readonly title="Click to copy CSV">
+  <button id="copyButton" class="copy-button" onclick="copyToClipboard('----CUT HERE----\n' + document.getElementById('infoDisplay').value + '\n----CUT HERE----')">Copy Info</button>
+  <button id="downloadButton" class="copy-button">Download Info</button>
+</div>
+<script>
+function clearSet(setId) {
+    // Get all input elements within the specified set
+    const inputs = document.querySelectorAll(`[id^="${setId}-row"]`).forEach(placeholder => {
+        const input = placeholder.querySelector('input');
+        if (input) {
+            input.value = '';
+            input.placeholder = 'name/text';  // Restore the default placeholder
+        }
+    });
+}
+</script>
+<script src="js/scripts-mini-test.js"></script>
+</body>
+</html> 

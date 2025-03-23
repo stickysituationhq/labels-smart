@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles-large.css">
+    <link rel="stylesheet" href="css/styles-mini.css">
     <style>
+        body {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 40px;
+            box-sizing: border-box;
+        }
         .tab-container {
             margin: 10px 0;
         }
         .logo-area {
             margin-bottom: 0;
+            text-align: center;
+        }
+        .mini-title {
+            text-align: center;
         }
         .tabs {
             display: flex;
             gap: 8px;
             margin-bottom: 20px;
+            justify-content: center;
         }
         .tab-button {
             padding: 8px 16px;
@@ -31,8 +42,45 @@
         }
         #content-container {
             width: 100%;
+            max-width: 1040px;
             height: calc(100vh - 200px);
             border: none;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 875px) {
+            body {
+                padding: 40px;
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            #content-container {
+                width: 100%;
+                height: calc(100vh - 180px);
+                max-width: 100%;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            .tab-button {
+                padding: 8px 16px;
+                font-size: 14px;
+                min-width: max-content;
+            }
+
+            .logo-area figure img {
+                max-width: 100%;
+                height: auto;
+            }
         }
     </style>
 </head>
@@ -40,19 +88,19 @@
     <div class="logo-area">
         <figure><img src="images/logo.png" width="auto" height="auto" alt="StickySituation logo"/></figure>
     </div>
-    
-    <h2 class="mini-title">LARGE LABELS</h2>
+
+    <h2 class="mini-title">MINI LABELS (SMART)</h2>
 
     <div class="tab-container">
         <div class="tabs">
-            <button class="tab-button" data-page="large-tritone.html" data-hash="tritone">Tritone</button>
-            <button class="tab-button" data-page="large-monotone.html" data-hash="monotone">Monotone</button>
-            <button class="tab-button" data-page="large-rainbow.html" data-hash="rainbow">Rainbow</button>
-            <button class="tab-button" data-page="large-black-white.html" data-hash="bw">B&W</button>
+            <button class="tab-button" data-page="mini-tritone-test.html" data-hash="tritone">Tritone</button>
+            <button class="tab-button" data-page="mini-monotone-test.html" data-hash="monotone">Monotone</button>
+            <button class="tab-button" data-page="mini-rainbow-test.html" data-hash="rainbow">Rainbow</button>
+            <button class="tab-button" data-page="mini-black-white-test.html" data-hash="bw">B&W</button>
         </div>
     </div>
 
-    <iframe id="content-container" src="large-tritone.html"></iframe>
+    <iframe id="content-container" src="mini-tritone-test.html"></iframe>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

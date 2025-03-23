@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info to CSV Converter</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 24px;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #1976D2;
+        }
+
+        .instructions {
+            margin-top: 24px;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        #clearButton {
+            background-color: #f44336;
+        }
+        
+        #clearButton:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Info to CSV Converter</h1>
+        <div class="input-group">
+            <textarea id="inputText" placeholder="Paste your info text here..."></textarea>
+            <div class="button-group">
+                <button id="downloadButton">Download CSV</button>
+                <button id="clearButton">Clear</button>
+            </div>
+        </div>
+        <div class="instructions">
+            <p><strong>Instructions:</strong></p>
+            <p>1. Paste your info text in the format:</p>
+            <p><code>DESIGN,FONT,s1r1a,s1r1b,...</code></p>
+            <p>2. Click the "Download CSV" button to convert and download as a CSV file.</p>
+        </div>
+    </div>
+
+    <script>
+        const inputText = document.getElementById('inputText');
+        const headerRow = "DESIGN,FONT,s1r1a,s1r1b,s1r2a,s1r2b,s1r3a,s1r3b,s1r4a,s1r4b,s1r5a,s1r5b,s1r6a,s1r6b,s1r7a,s1r7b,s1r8a,s1r8b,s1r9a,s1r9b,s1r10a,s1r10b,s1r11a,s1r11b,s1r12a,s1r12b,s2r1a,s2r1b,s2r2a,s2r2b,s2r3a,s2r3b,s2r4a,s2r4b,s2r5a,s2r5b,s2r6a,s2r6b,s2r7a,s2r7b,s2r8a,s2r8b,s2r9a,s2r9b,s2r10a,s2r10b,s2r11a,s2r11b,s2r12a,s2r12b";
+
+        // Download button functionality
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            const text = inputText.value.trim();
+            if (!text) {
+                alert('Please paste some text first!');
+                return;
+            }
+
+            // Format the text by separating header and data rows
+            let formattedText = text;
+            
+            // Remove the header if it exists in the input and get just the data row
+            const dataRow = formattedText.replace(headerRow, '').trim();
+            
+            // Combine header and data with a line break
+            formattedText = headerRow + '\n' + dataRow;
+
+            // Create CSV content with the formatted text
+            const csvContent = formattedText;
+
+            // Create a Blob with the CSV content
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            
+            // Create a link element to trigger the download
+            const link = document.createElement('a');
+            
+            // Create the download URL
+            const url = window.URL.createObjectURL(blob);
+            
+            // Set link properties
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'converted_data.csv');
+            
+            // Append link to body (required for Firefox)
+            document.body.appendChild(link);
+            
+            // Trigger the download
+            link.click();
+            
+            // Clean up
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        });
+
+        // Clear button functionality
+        document.getElementById('clearButton').addEventListener('click', function() {
+            inputText.value = '';
+        });
+
+        // Format text on paste
+        inputText.addEventListener('paste', function(e) {
+            // Let the paste happen naturally
+            setTimeout(() => {
+                const text = this.value;
+                // Remove the header if it exists and get just the data row
+                const dataRow = text.replace(headerRow, '').trim();
+                
+                if (text !== headerRow + '\n' + dataRow) {
+                    this.value = headerRow + '\n' + dataRow;
+                }
+            }, 0);
+        });
+    </script>
+</body>
+</html> 
