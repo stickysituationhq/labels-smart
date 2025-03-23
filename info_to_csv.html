@@ -114,6 +114,35 @@
         const inputText = document.getElementById('inputText');
         const headerRow = "DESIGN,FONT,s1r1a,s1r1b,s1r2a,s1r2b,s1r3a,s1r3b,s1r4a,s1r4b,s1r5a,s1r5b,s1r6a,s1r6b,s1r7a,s1r7b,s1r8a,s1r8b,s1r9a,s1r9b,s1r10a,s1r10b,s1r11a,s1r11b,s1r12a,s1r12b,s2r1a,s2r1b,s2r2a,s2r2b,s2r3a,s2r3b,s2r4a,s2r4b,s2r5a,s2r5b,s2r6a,s2r6b,s2r7a,s2r7b,s2r8a,s2r8b,s2r9a,s2r9b,s2r10a,s2r10b,s2r11a,s2r11b,s2r12a,s2r12b";
 
+        // Format text on paste
+        inputText.addEventListener('paste', function(e) {
+            // Prevent the default paste behavior
+            e.preventDefault();
+            
+            // Get the clipboard data
+            const clipboardData = e.clipboardData || window.clipboardData;
+            const pastedText = clipboardData.getData('text');
+            
+            // Split the pasted text into lines and remove empty lines
+            const lines = pastedText.split('\n').filter(line => line.trim());
+            
+            // If we have exactly two lines and the first one is the header
+            if (lines.length === 2 && lines[0].trim() === headerRow.trim()) {
+                // Just use the data row
+                this.value = headerRow + '\n' + lines[1].trim();
+            } else if (lines.length === 1) {
+                // If we only have one line and it's not the header, add the header
+                if (lines[0].trim() !== headerRow.trim()) {
+                    this.value = headerRow + '\n' + lines[0].trim();
+                } else {
+                    this.value = headerRow;
+                }
+            } else {
+                // For any other case, just use the pasted text as is
+                this.value = pastedText;
+            }
+        });
+
         // Download button functionality
         document.getElementById('downloadButton').addEventListener('click', function() {
             const text = inputText.value.trim();
@@ -122,17 +151,23 @@
                 return;
             }
 
-            // Format the text by separating header and data rows
-            let formattedText = text;
+            // Split the text into lines and remove empty lines
+            const lines = text.split('\n').filter(line => line.trim());
             
-            // Remove the header if it exists in the input and get just the data row
-            const dataRow = formattedText.replace(headerRow, '').trim();
-            
-            // Combine header and data with a line break
-            formattedText = headerRow + '\n' + dataRow;
-
-            // Create CSV content with the formatted text
-            const csvContent = formattedText;
+            // Ensure we have both header and data
+            let csvContent;
+            if (lines.length === 1) {
+                // If only one line and it's not the header, add the header
+                if (lines[0] !== headerRow) {
+                    csvContent = headerRow + '\n' + lines[0];
+                } else {
+                    alert('Please add some data below the header!');
+                    return;
+                }
+            } else {
+                // Use the existing content
+                csvContent = lines.join('\n');
+            }
 
             // Create a Blob with the CSV content
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -161,20 +196,6 @@
         // Clear button functionality
         document.getElementById('clearButton').addEventListener('click', function() {
             inputText.value = '';
-        });
-
-        // Format text on paste
-        inputText.addEventListener('paste', function(e) {
-            // Let the paste happen naturally
-            setTimeout(() => {
-                const text = this.value;
-                // Remove the header if it exists and get just the data row
-                const dataRow = text.replace(headerRow, '').trim();
-                
-                if (text !== headerRow + '\n' + dataRow) {
-                    this.value = headerRow + '\n' + dataRow;
-                }
-            }, 0);
         });
     </script>
 </body>
