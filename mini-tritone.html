@@ -167,6 +167,36 @@ body {
     background-color: #e0e0e0;
 }
 
+#manualInput {
+    width: 100%;
+    min-height: 150px;  /* Increased from 100px */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    resize: vertical;
+}
+
+#updateManualButton {
+    margin-bottom: 20px;
+}
+
+.manual-section {
+    display: none;  /* Hidden by default */
+}
+
+.version-text {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    user-select: none;
+    opacity: 0.5;
+    margin-top: 10px;
+}
+
 /* Mobile Responsive Styles */
 @media screen and (max-width: 875px) {
     .preview-sets-container {
@@ -262,6 +292,10 @@ body {
     <option value="'C6', sans-serif">C6</option>
   </select>
 </div>
+<div class="input-group manual-section">
+  <label for="manualInput" class="input-label">3. Manual</label>
+  <textarea id="manualInput" class="container-width" placeholder="Enter up to 48 items separated by commas (e.g., item1, item2, item3...)"></textarea>
+</div>
 <div class="preview-group">
   <div class="preview-sets-container">
     <!-- Set 1 -->
@@ -317,6 +351,7 @@ body {
   <button id="copyButton" class="copy-button" onclick="copyToClipboard('---\n' + document.getElementById('infoDisplay').value + '\n---')">Copy Info</button>
   <button id="downloadButton" class="copy-button">Download Info</button>
 </div>
+<div class="version-text">Ver 1.0</div>
 <script>
 function clearSet(setId) {
     // Get all input elements within the specified set
@@ -331,6 +366,44 @@ function clearSet(setId) {
     // Update the info display after clearing
     updateInfoDisplay();
 }
+
+// Remove the updateManualButton event listener and add input event listener
+document.getElementById('manualInput').addEventListener('input', function() {
+    const manualInput = this.value;
+    
+    // Split the input by commas and clean up each item
+    const items = manualInput
+        .split(',')
+        .map(item => item.trim())
+        .filter(item => item.length > 0);  // Remove empty items
+    
+    // Get all input fields from both sets
+    const set1Inputs = Array.from(document.querySelectorAll('[id^="set1-row"] input'));
+    const set2Inputs = Array.from(document.querySelectorAll('[id^="set2-row"] input'));
+    const allInputs = [...set1Inputs, ...set2Inputs];
+    
+    // Clear all inputs first
+    allInputs.forEach(input => {
+        input.value = '';
+    });
+    
+    // Fill in the values up to 48 items
+    const maxItems = Math.min(items.length, 48);
+    for (let i = 0; i < maxItems; i++) {
+        if (allInputs[i]) {
+            allInputs[i].value = items[i];
+        }
+    }
+    
+    // Update the info display after filling in the values
+    updateInfoDisplay();
+});
+
+// Version toggle
+document.querySelector('.version-text').addEventListener('click', function() {
+    const manualSection = document.querySelector('.manual-section');
+    manualSection.style.display = manualSection.style.display === 'none' || manualSection.style.display === '' ? 'block' : 'none';
+});
 </script>
 <script src="js/scripts-mini-test.js"></script>
 </body>
